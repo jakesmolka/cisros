@@ -1,7 +1,0 @@
-Third party licences
---------------------
-
-See the automatically generated dependency management report on
-http://repo.openehealth.org/sites/ipf/reports/ipf-${VERSION}/dependency-management.html
-where ${VERSION} is the IPF version, e.g. 2.6.3 or 2.6-m1
-

@@ -13,29 +13,31 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
+
 <assembly>
-  <id>bin</id>
-  <formats>
-    <format>zip</format>
-  </formats>
-  <moduleSets>
-    <moduleSet>
-      <excludes>
-        <exclude>org.openehealth.ipf.tutorials:*</exclude>
-      </excludes>
-      <binaries>
-        <unpack>false</unpack>
-        <outputDirectory>dist</outputDirectory>
-        <dependencySets>
-          <dependencySet>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <includes>
+                <include>startup*</include>
+                <include>keystore</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/test/resources</directory>
+            <outputDirectory>conf</outputDirectory>
+            <includes>
+                <include>log4j.xml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <scope>runtime</scope>
-          </dependencySet>
-        </dependencySets>        
-      </binaries>
-    </moduleSet>
-  </moduleSets>
-  <componentDescriptors>
-    <componentDescriptor>src/main/assembly/bin-common.xml</componentDescriptor>
-  </componentDescriptors>  
+        </dependencySet>
+    </dependencySets>
 </assembly>
