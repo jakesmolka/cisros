@@ -35,7 +35,10 @@ http://openehealth.org/schema/ipf-commons-core.xsd">
         <camel:jmxAgent id="agent" disabled="true" />
         <camel:routeBuilder ref="iti4142RouteBuilder"/>        
         <camel:routeBuilder ref="iti43RouteBuilder"/>        
-        <camel:routeBuilder ref="iti18RouteBuilder"/>        
+        <camel:routeBuilder ref="iti18RouteBuilder"/>
+        <camel:routeBuilder ref="iti57RouteBuilder"/>
+        <camel:routeBuilder ref="openEhrCompositionRouteBuilder"/>
+        <camel:routeBuilder ref="openEhrServerMockRouteBuilder"/>
     </camel:camelContext>
     
 	<ipf:globalContext id="globalContext"/>     
@@ -51,6 +54,18 @@ http://openehealth.org/schema/ipf-commons-core.xsd">
 
     <bean id="iti18RouteBuilder"
         class="org.openehealth.ipf.tutorials.xds.Iti18RouteBuilder">
+    </bean>
+
+    <bean id="iti57RouteBuilder"
+          class="org.openehealth.ipf.tutorials.xds.Iti57RouteBuilder">
+    </bean>
+
+    <bean id="openEhrCompositionRouteBuilder"
+          class="org.openehealth.ipf.tutorials.xds.OpenEhrRouteBuilder">
+    </bean>
+
+    <bean id="openEhrServerMockRouteBuilder"
+          class="org.openehealth.ipf.tutorials.xds.OpenEhrServerMockRouteBuilder">
     </bean>
 
     <!-- The store that contains all the in-memory documents and their meta data -->    
@@ -69,6 +84,14 @@ http://openehealth.org/schema/ipf-commons-core.xsd">
     </bean>
 
     <bean id="mockedSender" class="org.openehealth.ipf.commons.audit.queue.RecordingAuditMessageQueue"/>
+
+    <bean id="RestletComponent" class="org.restlet.Component" />
+
+    <bean id="RestletComponentService" class="org.apache.camel.component.restlet.RestletComponent">
+        <constructor-arg index="0">
+            <ref bean="RestletComponent" />
+        </constructor-arg>
+    </bean>
 
 
 </beans>

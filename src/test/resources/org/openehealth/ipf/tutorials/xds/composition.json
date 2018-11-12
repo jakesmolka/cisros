@@ -1,0 +1,148 @@
+{
+  "name": {
+    "value": "Vital Signs"
+  },
+  "uid": {
+    "_type": "OBJECT_VERSION_ID",
+    "value": "8849182c-82ad-4088-a07f-48ead4180515::example.domain.com::1"
+  },
+  "archetype_details": {
+    "archetype_id": {
+      "value": "openEHR-EHR-COMPOSITION.encounter.v1"
+    },
+    "template_id": {
+      "value": "Example"
+    },
+    "rm_version": "1.0.2"
+  },
+  "archetype_node_id": "openEHR-EHR-COMPOSITION.encounter.v1",
+  "language": {
+    "terminology_id": {
+      "value": "ISO_639-1"
+    },
+    "code_string": "en"
+  },
+  "territory": {
+    "terminology_id": {
+      "value": "ISO_3166-1"
+    },
+    "code_string": "NL"
+  },
+  "category": {
+    "value": "event",
+    "defining_code": {
+      "terminology_id": {
+        "value": "openehr"
+      },
+      "code_string": "433"
+    }
+  },
+  "composer": {
+    "external_ref": {
+      "id": {
+        "value": "16b74749-e6aa-4945-b760-b42bdc07098a"
+      },
+      "namespace": "example.domain.com",
+      "type": "PERSON"
+    },
+    "name": "A name"
+  },
+  "context": {
+    "start_time": {
+      "value": "2014-11-18T09:50:35.000+01:00"
+    },
+    "end_time": {
+      "value": "2014-11-19T09:50:35.000+01:00"
+    },
+    "setting": {
+      "value": "other care",
+      "defining_code": {
+        "terminology_id": {
+          "value": "openehr"
+        },
+        "code_string": "238"
+      }
+    },
+    "location": "Station 1",
+    "other_context": {
+      "@class": "ITEM_LIST",
+      "items": [
+        {
+          "@class": "ELEMENT",
+          "name": {
+            "@class": "DV_TEXT",
+            "value": "classCode"
+          },
+          "archetype_node_id": "at0001",
+          "value": {
+            "@class": "DV_TEXT",
+            "value": "BEF"
+          }
+        },
+        {
+          "@class": "ELEMENT",
+          "name": {
+            "@class": "DV_TEXT",
+            "value": "healthCareFacilityTypeCode"
+          },
+          "archetype_node_id": "at0001",
+          "value": {
+            "@class": "DV_TEXT",
+            "value": "KHS"
+          }
+        },
+        {
+          "@class": "ELEMENT",
+          "name": {
+            "@class": "DV_TEXT",
+            "value": "practiceSettingCode"
+          },
+          "archetype_node_id": "at0001",
+          "value": {
+            "@class": "DV_TEXT",
+            "value": "ALLG"
+          }
+        },
+        {
+          "@class": "ELEMENT",
+          "name": {
+            "@class": "DV_TEXT",
+            "value": "typeCode"
+          },
+          "archetype_node_id": "at0001",
+          "value": {
+            "@class": "DV_TEXT",
+            "value": "BERI"
+          }
+        },
+        {
+          "@class": "ELEMENT",
+          "name": {
+            "@class": "DV_TEXT",
+            "value": "contentTypeCode"
+          },
+          "archetype_node_id": "at0001",
+          "value": {
+            "@class": "DV_TEXT",
+            "value": "1"
+          }
+        }
+      ]
+    }
+  },
+  "feeder_audit": {
+    "originating_system_audit": {
+      "system_id": "2.999.2005.3.7",
+      "time": "2014-11-19T09:50:35.000+01:00",
+      "provider": {
+        "name": "system name test",
+        "external_ref": {
+          "id": {
+            "value": "system123"
+          }
+        }
+      }
+    }
+  },
+  "content": {}
+}

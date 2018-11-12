@@ -20,6 +20,7 @@ import org.apache.camel.Expression
 import org.apache.camel.Processor
 import org.apache.camel.builder.RouteBuilder
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Association
+import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssociationType
 import org.openehealth.ipf.commons.ihe.xds.core.requests.ProvideAndRegisterDocumentSet
 import org.openehealth.ipf.commons.ihe.xds.core.requests.RegisterDocumentSet
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Response
@@ -191,7 +192,8 @@ class Iti4142RouteBuilder extends RouteBuilder {
             .assignUuid()
             .changeAssociationUuids()
             .store()
-            .multicast().to('direct:checkReplace', 'direct:updateTime')
+            // Modification to Registry for ITI-57: added check of associations to update availability status
+            .multicast().to('direct:checkReplace', 'direct:checkAvailabilityStatusUpdate', 'direct:updateTime')
             
         // Replace associations must deprecate the replaced document and copy   
         // the new document into all folders of the original one
@@ -215,6 +217,15 @@ class Iti4142RouteBuilder extends RouteBuilder {
                         it.assoc.sourceUuid)
             }
             .store()
+
+        // Modification to Registry for ITI-57: check if given association is of type UpdateAvailabilityStatus
+        from('direct:checkAvailabilityStatusUpdate')
+            .log(log) {'Searching for updateAvailabilityType association'}
+            .choice().when { it.in.body.entry.getAssociationType() == UPDATE_AVAILABILITY_STATUS }
+                .log(log) {'Found updateAvailabilityType association'}
+                .multicast().to('direct:deprecateTargetDocs', 'direct:deprecateTargetedFolders').end()
+                .otherwise()
+            .end()
             
         // Deprecate all replaced documents
         from('direct:deprecateTargetDocs')
@@ -224,7 +235,7 @@ class Iti4142RouteBuilder extends RouteBuilder {
             
         // Deprecate a single replaced document
         from('direct:deprecateDocEntry')
-            .log(log) { 'deprecating: ' + it.in.body.entry.entryUuid }
+            .log(log) { 'deprecating documentEntry: ' + it.in.body.entry.entryUuid }
             .status(DEPRECATED)
             // Any other transformation or addendum to the deprecated document must 
             // be deprecated as well. Clear fields from previous usage.
@@ -237,6 +248,16 @@ class Iti4142RouteBuilder extends RouteBuilder {
             .search(DOC_ENTRY).uuids('targetUuidsOfDeprecated').into('targetsOfDeprecated')
             .splitEntries { it.targetsOfDeprecated }
             .to('direct:deprecateDocEntry')
+
+        // Modification to Registry for ITI-57: deprecate folders if target is folder type
+        from('direct:deprecateTargetedFolders')
+            .search(FOLDER).uuid('entry.targetUuid').into('targetFolders')
+            .splitEntries { it.targetFolders }
+            .to("direct:deprecateFolders")
+
+        from("direct:deprecateFolders")
+            .log(log) { 'deprecating folder: ' + it.in.body.entry.entryUuid }
+            .status(DEPRECATED)
 
         // Any folders that are related to the association need an update of their time stamp
         from('direct:updateTime')

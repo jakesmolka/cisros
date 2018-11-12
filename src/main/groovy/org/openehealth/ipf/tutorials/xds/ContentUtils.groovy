@@ -15,6 +15,10 @@
  */
 package org.openehealth.ipf.tutorials.xds
 
+import ca.uhn.hl7v2.model.v281.datatype.DTM
+import org.joda.time.DateTime
+import org.openehr.rm.datatypes.quantity.datetime.DvDateTime
+
 import java.security.MessageDigest
 import org.apache.commons.io.IOUtils
 
@@ -74,5 +78,67 @@ abstract class ContentUtils {
         finally {
             inputStream.close()
         }
+    }
+
+    /**
+     * Small util function to HTTP GET on remote openEHR REST
+     * @param URL to invoke HTTP GET on
+     * @return Response body as string
+     */
+    static String httpGet(URL url) {
+        HttpURLConnection con = (HttpURLConnection) url.openConnection()
+        con.setRequestMethod("GET")
+        BufferedReader ins = new BufferedReader(
+                new InputStreamReader(con.getInputStream()))
+        String inputLine
+        StringBuffer content = new StringBuffer()
+        while ((inputLine = ins.readLine()) != null) {
+            content.append(inputLine)
+        }
+        ins.close()
+        con.disconnect()
+        content.toString()
+    }
+
+    /**
+     * Small util function to HTTP POST on remote openEHR REST
+     * @param URL to invoke HTTP POST on
+     * @param payload for request body
+     * @return Response body as string
+     */
+    static String httpPost(URL url, String body) {
+        HttpURLConnection con = (HttpURLConnection) url.openConnection()
+        con.setRequestMethod("POST")
+        con.setDoOutput(true)
+        con.setRequestProperty("Prefer", "return=representation")
+        byte[] outputInBytes = body.getBytes("UTF-8")
+        OutputStream os = con.getOutputStream()
+        os.write( outputInBytes )
+        os.close()
+
+        BufferedReader ins = new BufferedReader(
+                new InputStreamReader(con.getInputStream()))
+        String inputLine
+        StringBuffer content = new StringBuffer()
+        while ((inputLine = ins.readLine()) != null) {
+            content.append(inputLine)
+        }
+        ins.close()
+        con.disconnect()
+        content.toString()
+    }
+
+    /**
+     * Converts openEHR DvDateTime string into HL7 DTM string.
+     * @param openEhrTime as string
+     * @return DTM time as string
+     */
+    static String openEhrTimeToHl7Time(String openEhrTime) {
+        DvDateTime dvDateTime = new DvDateTime(openEhrTime)
+        DateTime dateTime = dvDateTime.getDateTime()
+        Calendar cal = dateTime.toCalendar()
+        DTM dtm = new DTM()
+        dtm.setValue(cal)
+        dtm.toString()
     }
 }

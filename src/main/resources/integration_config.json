@@ -1,0 +1,70 @@
+{
+  "confidentialityCode": [
+    {
+      "template": "some ID",
+      "confidentiality": {
+        "code": "code according to value set",
+        "localized": "display name"
+      }
+    },
+    {
+      "template": "some other case",
+      "confidentiality": {
+        "code": "code according to value set",
+        "localized": "display name"
+      }
+    },
+    {
+      "template": "Example",
+      "confidentiality": {
+        "code": "N",
+        "localized": "normal"
+      }
+    }
+  ],
+  "classCode": [
+    {
+      "template": "Example",
+      "class": {
+        "code": "LAB",
+        "localized": "Laborergebnisse"
+      }
+    }
+  ],
+  "typeCode": [
+    {
+      "template": "Example",
+      "type": {
+        "code": "MKRO",
+        "localized": "Ergebnisse Mikrobiologie"
+      }
+    }
+  ],
+  "contentTypeCode": [
+    {
+      "template": "Example",
+      "type": {
+        "code": "7",
+        "localized": "Auf Anfrage"
+      }
+    }
+  ],
+  "practiceSettingCode": [
+    {
+      "location": "Station 1",
+      "practiceSetting": {
+        "code": "ALLG",
+        "localized": "Allgemeinmedizin"
+      }
+    }
+  ],
+  "healthCareFacilityTypeCode": [
+    {
+      "systemId": "2.999.2005.3.7",
+      "healthCareFacilityType": {
+        "code": "KHS",
+        "localized": "Krankenhaus"
+      }
+    }
+  ]
+}

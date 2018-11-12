@@ -19,6 +19,7 @@ import org.apache.commons.io.IOUtils
 import org.apache.cxf.transport.servlet.CXFServlet
 import org.junit.BeforeClass
 import org.junit.Test
+import org.openehealth.ipf.commons.core.config.ContextFacade
 import org.openehealth.ipf.commons.ihe.xds.core.SampleData
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AvailabilityStatus
 import org.openehealth.ipf.commons.ihe.xds.core.requests.QueryRegistry
@@ -51,6 +52,7 @@ class TestRepositoryAndRegistry extends StandardTestContainer {
 
     @Test
     void testProvideAndRegister() {
+        def store = ContextFacade.getBean(DataStore) // allows debugging watch on store
         def provide = SampleData.createProvideAndRegisterDocumentSet()
         def docEntry = provide.documents[0].documentEntry
         def patientId = docEntry.patientId

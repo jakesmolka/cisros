@@ -78,6 +78,8 @@ class RegRepModelExtension {
     static ProcessorDefinition assignUuid(ProcessorDefinition self) {
         self.process {
             def entry = it.in.body.entry
+            def bla = it
+            def test = entry.entryUuid.startsWith("u")
             if (!entry.entryUuid.startsWith('urn:uuid:')) {
                 def newEntryUuid = 'urn:uuid:' + UUID.randomUUID()
                 it.in.body.uuidMap[entry.entryUuid] = newEntryUuid
